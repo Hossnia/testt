@@ -11,5 +11,16 @@ pipeline {
                 }
             }
         }
+
+        stage("building artifact"){
+            steps{
+                sh 'mvn clean'
+                sh 'mvn validate'
+                sh 'mvn compile'
+                sh 'mvn install'
+                sh 'mvn package'
+                sh 'mvn test'
+            }
+        }
     }
 }
