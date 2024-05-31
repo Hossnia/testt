@@ -3,9 +3,9 @@ pipeline {
 
     stages{
         stage("sonarcloud analysis"){
-            withSonarQubeEnv('sonarcloud'){
-                steps{
-                    sh 'mvn verify org.sonarsource.scanner.maven:sonar-maven-plugin:sonar -Dsonar.projectKey=Hossnia_testt'
+            steps{
+                withSonarQubeEnv('sonarcloud'){
+                sh 'mvn verify org.sonarsource.scanner.maven:sonar-maven-plugin:sonar -Dsonar.projectKey=Hossnia_testt'
                 }
             }
         }
