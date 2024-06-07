@@ -6,8 +6,8 @@ pipeline {
     stages{
         stage("sonarcloud analysis"){
             steps{
-                withSonarQubeEnv('sonarcloud'){
-                sh 'mvn verify org.sonarsource.scanner.maven:sonar-maven-plugin:sonar -Dsonar.projectKey=Hossnia_testt'
+                withSonarQubeEnv("sonarqube"){
+                    sh 'mvn verify org.sonarsource.scanner.maven:sonar-maven-plugin:sonar -Dsonar.projectKey=Hossnia_testt'
                 }
             }
         }
@@ -20,6 +20,14 @@ pipeline {
                 sh 'mvn install'
                 sh 'mvn package'
                 sh 'mvn test'
+            }
+        }
+
+        stage("Push artifact in jfrog"){
+            steps{
+                sh 'curl -uadmin:AP8gcgmmset5jeYChTJYDN6XmDd \
+                -T target/bio*.jar \
+                "http://ec2-52-91-184-121.compute-1.amazonaws.com:8081/artifactory/pipeline/bio_${BUILD_TAG}"'
             }
         }
     }
