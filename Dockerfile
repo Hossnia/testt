@@ -1,5 +1,5 @@
-FROM openjdk:23-ea-17-jdk-bullseye
+FROM openjdk:11
 WORKDIR /jenkins
-COPY target/bioMedical-0.0.2-SNAPSHOT.jar /jenkins/biomedical.jar 
-EXPOSE 8085
-CMD ["java"," -jar", "biomedical.jar"]
+COPY target/bioMedical-0.0.2-SNAPSHOT.jar /jenkins/biomedical.jar
+EXPOSE 8082
+ENTRYPOINT ["java", "-jar", "biomedical.jar"]

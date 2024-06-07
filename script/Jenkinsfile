@@ -30,5 +30,31 @@ pipeline {
                 "http://ec2-52-91-184-121.compute-1.amazonaws.com:8081/artifactory/pipeline/bio_${BUILD_TAG}"'
             }
         }
+
+        stage("create a docker image"){
+            steps{
+                sh 'docker build -t geo-image .'
+            }
+        }
+
+        stage("log in to ECR"){
+            steps{
+                sh 'aws ecr get-login-password \
+                --region us-east-1 | docker login --username AWS \
+                --password-stdin 672451395673.dkr.ecr.us-east-1.amazonaws.com'
+            }
+        }
+
+        stage("rename docker image"){
+            steps{
+                sh 'docker tag geo-image:latest 672451395673.dkr.ecr.us-east-1.amazonaws.com/jenkins-pipeline:latest'
+            }
+        }
+
+        stage("push image to ECR"){
+            steps{
+                sh 'docker push 672451395673.dkr.ecr.us-east-1.amazonaws.com/jenkins-pipeline:latest'
+            }
+        }
     }
 }
